@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 const NumberSelector = ({
   setError,
   error,
@@ -8,13 +9,13 @@ const NumberSelector = ({
   const arrNumber = [1, 2, 3, 4, 5, 6];
 
   const numberSelectorHandler = (value) => {
-    setSelectedNumber(value);
-    setError("");
+    setSelectedNumber(value);  // Set the selected number
+    setError("");  // Clear any existing error when a number is selected
   };
 
   return (
     <NumberSelectorContainer>
-      <p className="error">{error}</p>
+      {error && <p className="error">{error}</p>}  {/* Display error message above the number selector */}
       <div className="flex">
         {arrNumber.map((value, i) => (
           <Box
@@ -44,10 +45,11 @@ const NumberSelectorContainer = styled.div`
   }
   p {
     font-size: 24px;
-    font-weight: 700px;
+    font-weight: 700;
   }
   .error {
     color: red;
+    margin-bottom: 10px;  // Add spacing between error message and number boxes
   }
 `;
 
@@ -61,4 +63,5 @@ const Box = styled.div`
   font-weight: 700;
   background-color: ${(props) => (props.isSelected ? "black" : "white")};
   color: ${(props) => (!props.isSelected ? "black" : "white")};
+  cursor: pointer;
 `;
