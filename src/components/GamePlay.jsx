@@ -7,35 +7,16 @@ import { Button, OutlineButton } from "../styled/Button";
 import Rules from "./Rules";
 
 const GamePlay = () => {
-  const [score, setScore] = useState(0);
-  const [selectedNumber, setSelectedNumber] = useState();
   const [currentDice, setCurrentDice] = useState(1);
-  const [error, setError] = useState("");
+  const [score, setScore] = useState(0);
   const [showRules, setShowRules] = useState(false);
 
-  const generateRandomNumber = (min, max) => {
-    return Math.floor(Math.random() * (max - min) + min);
-  };
-
   const roleDice = () => {
-    if (!selectedNumber) {
-      setError("You have not selected any number");
-      return;
-    }
-
-    const randomNumber = generateRandomNumber(1, 7);
-    setCurrentDice((prev) => randomNumber);
-
-    if (selectedNumber === randomNumber) {
-      setScore((prev) => prev + randomNumber + 2); //// here score + random number + 2
-    } else {
-      setScore((prev) => prev - 2);
-    }
-
-    setSelectedNumber(undefined);
+    const randomNumber = Math.floor(Math.random() * 6) + 1; // Generates a random number between 1 and 6
+    setCurrentDice(randomNumber);
   };
 
-  const resetScore = () => {
+   const resetScore = () => {
     setScore(0);
   };
 
@@ -43,21 +24,16 @@ const GamePlay = () => {
     <MainContainer>
       <div className="top_section">
         <TotalScore score={score} />
-        <NumberSelector
-          error={error}
-          setError={setError}
-          selectedNumber={selectedNumber}
-          setSelectedNumber={setSelectedNumber}
-        />
+        <NumberSelector />
       </div>
-      <RoleDice currentDice={currentDice} roleDice={roleDice} />
+      <RoleDice roleDice={roleDice} currentDice={currentDice} />
       <div className="btns">
         <OutlineButton onClick={resetScore}>Reset Score</OutlineButton>
-        <Button onClick={() => setShowRules((prev) => !prev)}>
-          {showRules ? "Hide" : "Show"} Rules
-        </Button>
-      </div>
+        <Button onClick={() => setShowRules(!showRules)}>
+  {showRules ? "Hide" : "Show"} Rules
+</Button>
 
+      </div>
       {showRules && <Rules />}
     </MainContainer>
   );
@@ -67,10 +43,12 @@ export default GamePlay;
 
 const MainContainer = styled.main`
   padding-top: 70px;
+  margin-bottom: 40px;
   .top_section {
     display: flex;
     justify-content: space-around;
     align-items: end;
+    
   }
   .btns {
     margin-top: 40px;
@@ -79,6 +57,5 @@ const MainContainer = styled.main`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
   }
 `;
